@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-touch-fullscreen" content="yes" />
+	<meta name="format-detection" content="telephone=no"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="msapplication-tap-highlight" content="no" />
+	<meta name="viewport" content="initial-scale=1,maximum-scale=1,minimum-scale=1" />
+	<title>webqq----swoole</title>
+	<script type="text/javascript" src="./js/jquery.js"></script>
+	<style type="text/css">
+	html,body{margin:0;padding: 0;background-color: #eee}
+	.login-form{background-color: #fff;width: 500px;height: 500px;margin:100px auto;border:1px #ccc solid;border-radius: 5px;box-shadow: 3px 3px 3px #666}
+	h3{text-align: center;margin-top: 100px}
+	.container{text-align: center;margin-top: 30px;}
+	.container label{display: inline-block;width: 50px;}
+	.container input{display: inline-block;height: 25px;line-height: 25px;padding: 0px 5px;width: 300px;outline: none}
+	input[name='login']{background-color: #5aba1f;color:#fff;border:none;width: 150px;height: 30px;line-height: 30px;border-radius: 5px;margin-top: 30px;cursor: pointer;}
+	.warning{border:2px #f00 solid;}
+	</style>
+</head>
+<body>
+
+	<form method="post" action="" class="login-form">
+		<h3>WebQQ</h3>
+		<div class="container"><label>昵称:</label><input type="text" name="nickname" placeholder="昵称" ></div>
+		<div class="container"><label>帐号:</label><input type="text" name="username" placeholder="用户"></div>
+		<div class="container"><label>密码:</label><input type="password" name="password" placeholder="密码"></div>
+		<div class="container"><input type="button" name="login" value="登录"></div>
+	</form>
+	<script type="text/javascript">
+		$(function(){
+			$("input[name='login']").click(function(){
+				var nickname = $("input[name='nickname']").val();
+				var username = $("input[name='username']").val();
+				var password = $("input[name='password']").val();
+				if(nickname == ""){
+					alert("请设置昵称");
+					$("input[name='nickname']").focus();
+					$("input[name='nickname']").addClass("warning");
+					$("input[name='username']").removeClass("warning");
+					$("input[name='password']").removeClass("warning");
+				} else if(username == "") {
+					alert("请输入帐号");
+					$("input[name='username']").focus();
+					$("input[name='nickname']").removeClass("warning");
+					$("input[name='username']").addClass("warning");
+					$("input[name='password']").removeClass("warning");
+				} else if(password == "") {
+					alert("请输入密码");
+					$("input[name='password']").focus();
+					$("input[name='nickname']").removeClass("warning");
+					$("input[name='username']").removeClass("warning");
+					$("input[name='password']").addClass("warning");
+				} else {
+					$("input[name='nickname']").removeClass("warning");
+					$("input[name='username']").removeClass("warning");
+					$("input[name='password']").removeClass("warning");
+					$.post("./swoole/action.php",{nickname:nickname,username:username,password:password,typ:'login'},function(res){
+						var r = eval("(" + res + ")");
+						if(r.data == "1"){
+							window.location.href="index.php";
+						} else {
+							alert("failed~~");
+						}
+					});
+				}
+			});
+		});
+	</script>
+</body>
+</html>
