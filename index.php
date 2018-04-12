@@ -1,4 +1,5 @@
 <?php
+echo "start";
 session_start();
 if(!$_SESSION['nickname'] && !$_SESSION['uid']){
 	echo '<script>window.location.href="login.html";</script>';
